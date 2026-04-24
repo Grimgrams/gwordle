@@ -13,15 +13,22 @@ def get_word(min_len=5, max_len=5):
     return random.choice(words)
 
 def get_feedback(guess, word):
-	result = []
+	result = ["⬛️"] * len(guess)
+	word_rem = []
 
 	for i,c in enumerate(guess):
 		if c == word[i]:
-			result.append("🟩")
-		elif c in word:
-			result.append("🟨")
+			result[i]="🟩"
 		else:
-			result.append("⬛️")
+			word_rem.append(word[i])
+
+	for i, c in enumerate(guess):
+		if result[i] == "🟩":
+			continue
+		if c in word_rem:
+			result[i] = "🟨"
+			word_rem.remove(c)
+
 	return " ".join(result)
 
 
@@ -29,6 +36,7 @@ def main():
 	MAX_ATTEMPTS = 6
 	ATTEMPT = 0
 	word = get_word()
+	#print(word)
 
 
 	while ATTEMPT < MAX_ATTEMPTS:
